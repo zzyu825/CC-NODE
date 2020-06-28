@@ -1,23 +1,32 @@
-// console.log(global);
+// function require(path) {
+//     // 1、将模块路径转为绝对路径：D:\lesson\node\lesson\myModule.js
+//     // 2、判断该模块是否已有缓存
+//     // if (require.cache['D:\\lesson\\node\\lesson\\myModule.js']) {
+//     //     return require.cache['D:\\lesson\\node\\lesson\\myModule.js'].result
+//     // }
+//     // 3、读取文件内容
+//     // 4、包裹一个函数
 
-// const timer = setTimeout(() => {}, 1000);
-// const timer = setImmediate(() => {}, 0);
-// console.log(timer);
+//     function __temp(module, exports, require, __dirname, __filename) {
+//         console.log('当前模块路径：', __dirname);
+//         console.log('当前模块文件：', __filename);
+//         exports.c = 3;
+//         module.exports = {
+//             a: 1,
+//             b: 2
+//         }
+//         this.m = 5
+//     }
 
-// console.log(__dirname);
-// console.log(__filename);
+//     // 6、创建module对象
+//     module.exports = {};
+//     const exports = module.exports;
 
-// const buffer = Buffer.from('abcdefg', 'utf-8');
-// console.log(buffer);
+//     __temp.call(module.exports, exports, require, module.path, module.filename);
+//     return module.exports;
+// }
 
-// console.log("当前命令行：", process.cwd());
-
-// setImmediate(() => {
-//     console.log(1)
-// }, 0);
-// process.exit();
-
-// console.log(process.argv);
-// console.log(process.platform);
-console.log(process.kill(11408));
-// console.log(process.env);
+// console.log(require);
+console.log(require.resolve('./a.js'));
+const result = require('./myModule');
+console.log(result);
