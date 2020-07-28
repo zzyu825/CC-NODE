@@ -1,63 +1,64 @@
 const fs = require('fs');
 const path = require('path');
 
-class File {
-    constructor(filename, name, ext, isFile, size, createTime, updateTime) {
-        this.filename = filename;
-        this.name = name;
-        this.ext = ext;
-        this.isFile = isFile;
-        this.size = size;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
+// 方式1
+async function method1() {
+    const from = path.resolve(__dirname, './files/a.txt');
+    const to = path.resolve(__dirname, './files/a1.txt');
+    console.time('方式1');
+    const content = await fs.promises.readFile(from);
+    await fs.promises.writeFile(to, content);
+    console.timeEnd('方式1');
+    console.log('复制完成');
+}
 
-    static async getFile(filename) {
-        const stat = await fs.promises.stat(filename);
-        const name = path.basename(filename);
-        const ext = path.extname(filename);
-        const isFile = stat.isFile();
-        const size = stat.size;
-        const createTime = new Date(stat.birthtime);
-        const updateTime = new Date(stat.mtime);
-        return new File(filename, name, ext, isFile, size, createTime, updateTime);
-    }
+// 方式2
+async function method2() {
+    const from = path.resolve(__dirname, './files/a.txt');
+    const to = path.resolve(__dirname, './files/a1.txt');
+    console.time('方式2');
+    const rs = fs.createReadStream(from);
+    const ws = fs.createWriteStream(to);
 
-    async getChildren() {
-        if (this.isFile) {
-            // 文件不可能有子文件
-            return [];
+    rs.on('data', chunk => {
+        // 读到一部分数据
+        const flag = ws.write(chunk);
+        if (!flag) {
+            // 下一次写入，会造成背压
+            rs.pause();
         }
-        let children = await fs.promises.readdir(this.filename);
-        children = children.map(name => {
-            const result = path.resolve(this.filename, name);
-            return File.getFile(result);
-        });
-        return Promise.all(children);
-    }
+    });
 
-    async getContent(isBuffer = false) {
-        if (this.isFile) {
-            if (isBuffer) {
-                return await fs.promises.readFile(this.filename);
-            } else {
-                return await fs.promises.readFile(this.filename, 'utf-8');
-            }
-        }
-        return null;
-    }
+    ws.on('drain', () => {
+        // 可以继续写了
+        rs.resume();
+    });
+
+    rs.on('close', () => {
+        // 写完了
+        ws.end(); // 关闭写入流
+        console.timeEnd('方式2');
+        console.log('复制完成');
+    })
 }
 
-async function readDir(dirname) {
-    const file = await File.getFile(dirname);
-    return await file.getChildren();
+// 方式3
+async function method3() {
+    const from = path.resolve(__dirname, './files/a.txt');
+    const to = path.resolve(__dirname, './files/a1.txt');
+    console.time('方式3');
+    const rs = fs.createReadStream(from);
+    const ws = fs.createWriteStream(to);
+
+    rs.pipe(ws);
+
+    rs.on("close", () => {
+        console.timeEnd("方式3");
+    });
 }
 
-async function test() {
-    const dirname = path.resolve(__dirname, './files');
-    const result = await readDir(dirname);
-    const data = await result[0].getChildren();
-    console.log(result, data);
-}
+// method1();
 
-test();
+// method2();
+
+method3();
