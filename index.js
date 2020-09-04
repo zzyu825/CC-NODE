@@ -1,33 +1,63 @@
-const net = require('net');
-const server = net.createServer();
-const fs = require('fs');
-const path = require('path');
+//静态资源服务器
+// http://localhost:12306/index.html  -> public/index.html 文件内容
+// http://localhost:12306/css/index.css  -> public/css/index.css 文件内容
 
+const http = require("http");
+const URL = require("url");
+const path = require("path");
+const fs = require("fs");
+
+async function getStat(filename) {
+  try {
+    return await fs.promises.stat(filename);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 得到要处理的文件内容
+ */
+async function getFileContent(url) {
+  const urlObj = URL.parse(url);
+  let filename; //要处理的文件路径
+  filename = path.resolve(__dirname, "public", urlObj.pathname.substr(1));
+  let stat = await getStat(filename);
+  if (!stat) {
+    //文件不存在
+    return null;
+  } else if (stat.isDirectory()) {
+    //文件是一个目录
+    filename = path.resolve(
+      __dirname,
+      "public",
+      urlObj.pathname.substr(1),
+      "index.html"
+    );
+    stat = await getStat(filename);
+    if (!stat) {
+      return null;
+    } else {
+      return await fs.promises.readFile(filename);
+    }
+  } else {
+    return await fs.promises.readFile(filename);
+  }
+}
+
+async function handler(req, res) {
+  const info = await getFileContent(req.url);
+  if (info) {
+    res.write(info);
+  } else {
+    res.statusCode = 404;
+    res.write("Resource is not exist");
+  }
+  res.end();
+}
+
+const server = http.createServer(handler);
+server.on("listening", () => {
+  console.log("server listen 12306");
+});
 server.listen(12306);
-
-server.on('listening', () => {
-    console.log('已监听到12306端口');
-});
-
-server.on('connection', socket => {
-    console.log('有客户端连接到服务器');
-
-    socket.on('data', async chunk => {
-        // console.log(chunk.toString('utf-8'));
-        const filename = path.resolve(__dirname, './files/harden.jpg');
-        const bodyBuffer = await fs.promises.readFile(filename);
-        const headBuffer = Buffer.from(`HTTP/1.1 200 OK
-Content-Type: image/jpeg
-
-`,
-            'utf-8'
-        );
-        const result = Buffer.concat([headBuffer, bodyBuffer]);
-        socket.write(result);
-        socket.end();
-    });
-
-    socket.on('end', () => {
-        console.log('连接关闭了');
-    });
-});
