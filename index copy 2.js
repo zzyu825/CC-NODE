@@ -1,13 +1,10 @@
-let i = 0;
-console.time();
-function test() {
-  i++;
-  if (i < 1000) {
-    // setTimeout(test);
-    setImmediate(test);
-  } else {
-    console.timeEnd();
-  }
-}
+const { EventEmitter } = require("events");
+// 创建一个事件处理对象
+// 可以注册事件，可以触发事件
+const ee = new EventEmitter();
 
-test();
+ee.on("abc", (data1, data2) => {
+  console.log("abc事件触发了", data1, data2);
+});
+
+ee.emit("abc", 123, 456)

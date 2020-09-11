@@ -1,19 +1,10 @@
-setImmediate(() => {
-  console.log(1);
-});
+const MyRequest = require("./MyRequest");
 
-process.nextTick(() => {
-  console.log(2);
-  process.nextTick(() => {
-    console.log(6);
-  });
-});
+const request = new MyRequest("http://duyi.ke.qq.com");
 
-console.log(3);
+request.send();
 
-Promise.resolve().then(() => {
-  console.log(4);
-  process.nextTick(() => {
-    console.log(5);
-  });
+request.on("res", (headers, body) => {
+  console.log(headers);
+  console.log(body);
 });
