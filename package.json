@@ -19,5 +19,8 @@
   "homepage": "https://github.com/zzyu825/CC-NODE#readme",
   "devDependencies": {
     "@types/node": "^14.0.13"
+  },
+  "dependencies": {
+    "mysql2": "^2.1.0"
   }
 }
