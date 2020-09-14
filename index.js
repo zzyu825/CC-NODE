@@ -1,18 +1,18 @@
-const mysql = require('mysql2/promise');
-const pool = mysql.createPool({ // 连接池
-  host: '127.0.0.1',
-  user: 'root',
-  password: '950825',
-  database: 'companydb',
-  multipleStatements: true
-});
-
-async function test(id) {
-  // const sql = `select * from employee where id=?;`;
-  const sql = `select * from employee where \`name\` like concat('%', ?, '%');`;
-  const [ result ] = await pool.execute(sql, [id]);
-  console.log(result);
-};
-
-// test(`'';insert into company(\`name\`, location, buildDate) values('asd', '123', curdate())`);
-test('袁');
+// 根据姓名、年龄、性别查询员工
+function test(name, age, sex) {
+    let sql = 'select * from employee where 1 = 1';
+    const params = [];
+    if (name !== undefined) {
+        sql += ' and name = ?';
+        params.push(name);
+    }
+    if (age !== undefined) {
+        sql += ' and age = ?';
+        params.push(age);
+    }
+    if (sex !== undefined) {
+        sql += ' and sex = ?';
+        params.push(sex);
+    }
+    pool.execute(sql, params);
+}
