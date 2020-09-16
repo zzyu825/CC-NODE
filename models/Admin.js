@@ -1,6 +1,6 @@
 const { sequelize, DataTypes } = require('./db');
 
-// 创建一个模型对象
+// 创建一个模型对象(类)
 module.exports = sequelize.define('Admin', {
   loginId: {
     type: DataTypes.STRING,

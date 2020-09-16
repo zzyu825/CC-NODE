@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('myschooldb', 'root', '950825', {
   host: 'localhost',
   dialect: 'mysql',
-  logging: null
+  // logging: null
 });
 
 module.exports = {

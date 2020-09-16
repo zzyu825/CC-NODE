@@ -1,14 +1,18 @@
-// const { sequelize } = require('./models/db');
+const adminService = require('./services/adminService');
 
-// (async function () {
-//   try {
-//     await sequelize.authenticate();
-//     console.log('Connection has been established successfully.');
-//   } catch (error) {
-//     console.error('Unable to connect to the database:', error);
-//   }
-// })();
+// adminService.addAdmin({
+//     loginId: 'abc',
+//     loginPwd: '123'
+// });
 
-// const Admin = require('./models/Admin');
+// adminService.deleteAdmin(3).then(r => {
+//     console.log(r);
+// });
 
-require("./models/sync");
+adminService
+  .updateAdmin(2, {
+    loginId: "aaaaaa",
+  })
+  .then((r) => {
+    console.log(r);
+  });
