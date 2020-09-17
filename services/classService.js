@@ -19,3 +19,18 @@ exports.updateClass = async function (id, obj) {
     },
   });
 };
+
+// 根据id查询
+exports.getClassById = async function (id) {
+  const result = await Class.findByPk(id);
+  if (result) {
+    return result.toJSON();
+  }
+  return null;
+};
+
+// 查询全部
+exports.getClasses = async function () {
+  const result = await Class.findAll();
+  return JSON.parse(JSON.stringify(result));
+};
