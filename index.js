@@ -1,15 +1,22 @@
 require("./models/relation");
-// const Book = require('./services/bookService');
-const Student = require('./services/studentService');
 
-// Book.getBookById(1).then(r => {
-//     console.log(r);
+const md5 = require('md5');
+// console.log(md5(''));
+// console.log(md5('asdzxcasdzxcasdzxcasdzxcasdzxcasdzxc'));
+
+const adminServ = require('./services/adminService');
+// adminServ.addAdmin({
+//     loginId: 'zzy',
+//     loginPwd: 123
 // });
-
-// Book.getBooks(1, 5, '美').then(r => {
-//     console.log(r);
+// adminServ.addAdmin({
+//     loginId: 'zzyu',
+//     loginPwd: 'asdZZY.95'
 // });
-
-Student.getStudents(1, 5, '男', '彭').then(r => {
+// adminServ.updateAdmin(5, {
+//     loginPwd: '123'
+// });
+adminServ.login("zzyu", "123").then((r) => {
     console.log(r);
-})
+});
+
