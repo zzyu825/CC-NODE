@@ -14,14 +14,12 @@ validate.extend(validate.validators.datetime, {
     if (options.dateOnly) {
       formats = ["YYYY-MM-DD", "YYYY-M-D", "x"];
     }
-    console.log(1);
     return +moment.utc(value, formats, true);
   },
   /**
    * 用户显示错误消息时，使用的显示字符串
    */
   format(value, options) {
-    console.log(2);
     let format = "YYYY-MM-DD";
     if (!options.dateOnly) {
       format += " HH:mm:ss";

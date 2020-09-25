@@ -113,7 +113,7 @@ exports.getStudents = async function (
   }
 
   const result = await Student.findAndCountAll({
-    attributes: ["id", "name", "sex", "birthday"],
+    attributes: ["id", "name", "sex", "birthday", "age"],
     where,
     include: [Class],
     offset: (page - 1) * limit,
