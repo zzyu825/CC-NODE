@@ -23,6 +23,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
     "log4js": "^6.3.0",
     "md5": "^2.3.0",
     "mockjs": "^1.1.0",
