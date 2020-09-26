@@ -1,33 +1,28 @@
 const express = require("express");
 const app = express();
+const path = require("path");
+const staticRoot = path.resolve(__dirname, "../public");
 
-app.use(require("./staticMiddleware"));
+/**
+ * 下面代码的作用：
+ * 当请求时，会根据请求路径（req.path）从指定的目录中寻找是否存在该文件，如果存在，直接响应文件内容，而不再移交给后续的中间件
+ * 如果不存在该文件，则直接移交给后续的中间件处理
+ * 默认情况下，如果映射的结果是一个目录，则会自动使用index.html
+ */
+// app.use(express.static(path.resolve(__dirname, "../public")));
+// app.use(express.static(staticRoot, {
+//   index: "default.html" // 默认为index.html
+// }));
 
-app.get("/news", 
-(req, res, next) => {
-  console.log("handel1");
-  // res.status(200);
-  // res.end();
-  // next();
-  throw new Error("abc");
-  // 相当于 next(new Error("abc"))
-}, 
-// (err, req, res, next) => {
-//   console.log("handel2");
-//   console.log(err);
-//   next();
-// }
-);
+// app.use(express.urlencoded({ extend: true }));
+app.use(require("./myUrlEncoded")); // 所有请求都会先经过自定义中间件处理
+app.use(express.json());
 
-// app.get("/news", (req, res, next) => {
-//   console.log("handel3");
-//   next();
-// });
+app.post("/api/student", (req, res) => {
+  console.log(req.body);
+});
 
-// 不写第一个参数，默认匹配所有
-// 能匹配 /news /news/abc /news/abc /news/abc/123
-// 不能匹配 /n /a /newsabc
-app.use("/news", require("./errorMiddleware"));
+app.use(require("./errorMiddleware"));
 
 const port = 12306;
 app.listen(port, () => {
