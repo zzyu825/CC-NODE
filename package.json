@@ -4,7 +4,8 @@
   "description": "course source code download",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon -x npm run server",
+    "server": "node index"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,8 @@
   },
   "homepage": "https://github.com/zzyu825/CC-NODE#readme",
   "devDependencies": {
-    "@types/node": "^14.0.13"
+    "@types/node": "^14.0.13",
+    "nodemon": "^2.0.4"
   },
   "dependencies": {
     "axios": "^0.20.0",
