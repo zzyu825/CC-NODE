@@ -7,13 +7,14 @@ const staticRoot = path.resolve(__dirname, "../public");
 app.use(express.static(staticRoot));
 
 // 解析 application/x-www-form-urlencoded 格式的请求体
-app.use(express.urlencoded({ extend: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // 解析 application/json 格式的请求体
 app.use(express.json());
 
 // 处理api的请求
 app.use("/api/student", require("./api/student"));
+app.use("/api/admin", require("./api/admin"));
 
 // 处理错误的中间件
 app.use(require("./errorMiddleware"));
