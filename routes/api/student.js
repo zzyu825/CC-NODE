@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const stuServ = require("../../services/studentService");
 const { asyncHandel } = require("../getSendResult");
-
 router.get('/', asyncHandel(async (req, res) => {
     const page = req.query.page || 1;
     const limit = req.query.limit || 10;
