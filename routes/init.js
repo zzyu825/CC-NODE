@@ -14,7 +14,7 @@ app.use(cookieParser());
 // app.use(cookieParser("zzyu"));
 
 // 应用token中间件
-app.use(require("./tokenMiddleware"));
+// app.use(require("./tokenMiddleware"));
 
 // 解析 application/x-www-form-urlencoded 格式的请求体
 app.use(express.urlencoded({ extended: true }));
