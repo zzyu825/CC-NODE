@@ -1,18 +1,19 @@
+// 简单请求
+
 // fetch("http://localhost:12306/api/student")
-//     .then(res => res.json())
-//     .then(res => console.log(res));
+//   .then(res => res.json())
+//   .then(res => console.log(res));
 
-function jsonp(url) {
-    const script = document.createElement("script");
-    script.src = url;
-    document.body.appendChild(script);
-    script.onload = () => {
-        script.remove();
-    };
-}
-
-function callback(data) {
-    console.log(data);
-}
-
-jsonp("http://localhost:12306/api/student");
+// 预检请求
+fetch("http://localhost:12306/api/student", {
+  method: "POST",
+  headers: {
+    "content-type": "application/json",
+    a: 1,
+  },
+  credentials: "include",
+})
+  .then((resp) => resp.json())
+  .then((resp) => {
+    console.log(resp);
+  });

@@ -7,10 +7,7 @@ router.get('/', async (req, res) => {
     const limit = req.query.limit || 10;
     const sex = req.query.sex || -1;
     const name = req.query.name || "";
-    const result =  await stuServ.getStudents(page, limit, sex, name);
-    const json = JSON.stringify(result);
-    const script = `callback(${json})`;
-    res.header("content-type", "application/javascript").send(script);
+    return await stuServ.getStudents(page, limit, sex, name);
 });
 
 router.get('/:id', asyncHandel(async (req, res) => {
