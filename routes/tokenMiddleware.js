@@ -19,20 +19,12 @@ module.exports = (req, res, next) => {
     next();
     return;
   }
-  let token = req.cookies.token;
-  // let token = req.signedCookies.token;
-  if (!token) {
-    // 从header的authorization中获取
-    token = req.headers.authorization;
-  }
-  if (!token) {
-    // 没有认证
+  if (req.session.loginUser) {
+    //说明已经登录过了
+    next();
+  } else {
     handleNonToken(req, res, next);
-    return;
   }
-  const userId = cryptor.decrypt(token);
-  req.userId = userId;
-  next();
 }
 
 // 处理没有认证的情况

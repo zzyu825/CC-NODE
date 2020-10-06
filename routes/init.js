@@ -1,13 +1,21 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const session = require("express-session");
+
+app.use(
+  session({
+    secret: "zhengzhiyu",
+    name: "sessionid"
+  })
+);
 
 // 映射public目录中的静态资源
 const path = require("path");
 const staticRoot = path.resolve(__dirname, "../public");
 app.use(express.static(staticRoot));
 
-const whiteList = ["null"];
+const whiteList = ["null", "http://localhost:12306"];
 app.use(
   cors({
     origin(origin, callback) {

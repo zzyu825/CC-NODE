@@ -12,7 +12,11 @@ module.exports = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
       get() {
-        return this.getDataValue("birthday").getTime();
+        const birth = this.getDataValue("birthday");
+        if (birth) {
+          return birth.getTime();
+        }
+        return undefined;
       }
     },
     age: {
