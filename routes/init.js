@@ -45,6 +45,10 @@ app.use(require("./proxyMid"));
 
 app.use(require("./apiLoggerMid"));
 
+// 模板引擎
+app.set("views", path.resolve(__dirname, "./views"));
+app.use("/student", require("./controller/student"));
+
 // 处理api的请求
 app.use("/api/student", require("./api/student"));
 app.use("/api/admin", require("./api/admin"));
