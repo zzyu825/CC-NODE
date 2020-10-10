@@ -5,7 +5,6 @@ const cors = require("cors");
 
 // app.use(history());
 app.use(require("./imgProtectMid"));
-console.log(1);
 
 // 映射public目录中的静态资源
 const path = require("path");
@@ -40,6 +39,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // 解析 application/json 格式的请求体 
 app.use(express.json());
+
+// 使用代理
+app.use(require("./proxyMid"));
 
 app.use(require("./apiLoggerMid"));
 
