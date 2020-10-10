@@ -6,6 +6,17 @@
   <title>Document</title>
 </head>
 <body>
-  <img src="./img/water.jpg" alt="">
+  <div id="divcode"></div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.js"></script>
+  <script>
+    new QRCode(divcode, {
+      text: "https://github.com/zzyu825",
+      width: 128,
+      height: 128,
+      colorDark: "#abcdef",
+      colorLight: "#fff",
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+  </script>
 </body>
 </html>

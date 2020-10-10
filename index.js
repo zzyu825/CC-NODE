@@ -1,21 +1,16 @@
-require('./init');
+// require('./init');
 
-// const ejs = require("ejs");
-
-// ejs
-//   .renderFile("./test.ejs", {
-//     number: Math.random(),
-//   })
-//   .then((result) => {
-//     console.log(result);
-//   });
-
-// const str = `
-// 生成的数字是：<%= number %>
-// `;
-
-// const result = ejs.render(str, {
-//   number: Math.random(),
+// const QRCode = require("qrcode");
+// QRCode.toFile("./code.png", "https://github.com/zzyu825", (err) => {
+//   if (err) {
+//     console.log(err);
+//   }
 // });
 
-// console.log(result);
+// QRCode.toDataURL("https://github.com/zzyu825", (err, url) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(url);
+//   }
+// });
