@@ -17,6 +17,10 @@ module.exports = sequelize.define(
     author: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT("LONG"),
+      allowNull: false
     }
   },
   {
