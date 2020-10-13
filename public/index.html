@@ -1,64 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    .editor {
-      width: 80%;
-      height: 400px;
-      border: 1px solid #ccc;
-      margin: 0 auto;
-    }
-  </style>
-<body>
-  <h1>添加一本书籍</h1>
-    <p>书籍名称：<input type="text" id="name" /></p>
-    <div>
-      书籍描述：
-      <!-- 富文本框 -->
-      <div id="editor"></div>
-    </div>
-    <p>
-      <button>提交</button>
-    </p>
-    <script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>发送数据到服务器</button>
     <script>
-      var E = window.wangEditor;
-      var editor = new E("#editor");
-      editor.customConfig.uploadImgServer = "/api/upload";
-      editor.customConfig.uploadFileName = "img";
-      editor.customConfig.uploadImgHooks = {
-        customInsert: function (insertImg, result) {
-          insertImg(result.data);
-        },
+      // 客户端（浏览器）websocket
+      const ws = new WebSocket("ws://localhost:12306"); // 创建一个websocket，同时，发送连接到服务器
+      ws.onopen = function () {
+        // http握手完成
+        console.log("连接已建立");
       };
-      editor.create();
-      editor.txt.html("<p>这是默认的内容</p>");
-      function $(selector) {
-        return document.querySelector(selector);
-      }
-      async function addBook() {
-        const name = $("#name").value;
-        const description = editor.txt.html();
-        const resp = await fetch("/api/book", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            description,
-            publishDate: Date.now(),
-            author: "zzyu",
-          }),
-        }).then((resp) => resp.json());
-        console.log(resp);
-      }
-      $("button").onclick = addBook;
-    </script>
-</body>
 
+      ws.onmessage = function (e) {
+        console.log("来自服务器的数据", e.data);
+      };
+
+      ws.onclose = function () {
+        console.log("通道关闭");
+      };
+
+      document.querySelector("button").onclick = function () {
+        ws.send("123");
+      };
+      //   ws.close(); //客户端主动断开连接
+    </script>
+  </body>
 </html>

@@ -1,2 +1,0 @@
-require('./relation');
-require('./sync');
